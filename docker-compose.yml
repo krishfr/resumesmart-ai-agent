@@ -1,0 +1,58 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: resumesmart-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: resumesmart
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - resumesmart-network
+
+  backend:
+    build: ./backend
+    container_name: resumesmart-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: resumesmart
+      DB_USER: postgres
+      DB_PASSWORD: password
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend/uploads:/app/uploads
+    networks:
+      - resumesmart-network
+
+  frontend:
+    build: ./frontend
+    container_name: resumesmart-frontend
+    environment:
+      VITE_API_URL: http://localhost:3000/api
+    ports:
+      - "5173:5173"
+    networks:
+      - resumesmart-network
+
+volumes:
+  postgres_data:
+
+networks:
+  resumesmart-network:
+    driver: bridge
