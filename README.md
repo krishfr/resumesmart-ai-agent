@@ -1,16 +1,71 @@
-# React + Vite
+*Title* - ResumeSmart AI Agent
+AI-powered resume analysis system designed to evaluate, optimize, and align resumes with job descriptions.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+*Overview* - ResumeSmart AI Agent analyzes resumes using AI and compares them against job descriptions to highlight skill gaps, role alignment, and improvement areas. Built for candidates who want ATS-ready, role-specific resumes.
 
-Currently, two official plugins are available:
+*Tech Stack* - 
+Frontend - React
+Backend - Node.js, Express.js
+Databse - PostgreSQL
+Artificial Intelligence - LLM Based (Ollama)
+Docker - Deployment
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*Core Features* - 
+• Resume parsing and structured data extraction
+• Job description analysis and keyword mapping
+• AI-driven skill gap and relevance scoring
+• Actionable resume improvement suggestions
+• Modular architecture for future AI agents
 
-## React Compiler
+*System Flow* -
+Resume Upload → AI Parsing → JD Comparison → Scoring Engine → Feedback Report
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*Setup* - 
 
-## Expanding the ESLint configuration
+###Clone Repository
+```bash 
+git clone https://github.com/krishfr/resumesmart-ai-agent.git
+cd resumesmart-ai-agent
+````
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+###Install Dependencies
+```bash
+cd frontend/
+npm install
+```
+
+###Install Dependencies
+```bash
+cd backend/
+npm install
+```
+
+###Environment Variables
+```bash
+OPENAI_API_KEY=your_api_key
+```
+
+###Run Locally
+```bash
+docker-compose up
+```
+
+###Access Application At
+```bash
+http://localhost:3000
+```
+
+*Use Case* -
+• Resume screening and optimization
+• ATS compatibility checks
+• Career coaching tools
+• HR tech and recruitment platforms
+
+*Future Enhancements* -
+• Multi-role resume generation
+• PDF export and ATS scoring
+• CI/CD pipeline automation
+• Cloud deployment with AWS
+
+*Author* -
+Krish Chaudhari
