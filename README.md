@@ -1,71 +1,84 @@
-*Title* - ResumeSmart AI Agent
-AI-powered resume analysis system designed to evaluate, optimize, and align resumes with job descriptions.
+ResumeSmart AI Agent
 
-*Overview* - ResumeSmart AI Agent analyzes resumes using AI and compares them against job descriptions to highlight skill gaps, role alignment, and improvement areas. Built for candidates who want ATS-ready, role-specific resumes.
+AI-powered resume analysis system for evaluating, optimizing, and aligning resumes with job descriptions.
 
-*Tech Stack* - 
-Frontend - React
-Backend - Node.js, Express.js
-Databse - PostgreSQL
-Artificial Intelligence - LLM Based (Ollama)
-Docker - Deployment
+Overview
 
-*Core Features* - 
+ResumeSmart AI Agent analyzes resumes using AI and compares them against job descriptions to identify skill gaps, role alignment, and improvement areas. Built for candidates targeting ATS-friendly, role-specific resumes.
+
+Tech Stack
+
+Frontend
+React
+
+Backend
+Node.js, Express.js
+
+Database
+PostgreSQL
+
+AI
+LLM-based analysis using Ollama
+
+DevOps
+Docker for containerized deployment
+
+Core Features
+
 • Resume parsing and structured data extraction
 • Job description analysis and keyword mapping
 • AI-driven skill gap and relevance scoring
 • Actionable resume improvement suggestions
-• Modular architecture for future AI agents
+• Modular architecture for extending AI agents
 
-*System Flow* -
+System Flow
+
 Resume Upload → AI Parsing → JD Comparison → Scoring Engine → Feedback Report
 
-*Setup* - 
+Setup
 
-###Clone Repository
-```bash 
+Clone repository
+```bash
 git clone https://github.com/krishfr/resumesmart-ai-agent.git
 cd resumesmart-ai-agent
-````
-
-###Install Dependencies
+```
+Install frontend dependencies
 ```bash
-cd frontend/
+cd frontend
 npm install
 ```
-
-###Install Dependencies
+Install backend dependencies
 ```bash
-cd backend/
+cd ../backend
 npm install
 ```
-
-###Environment Variables
+Environment variables
 ```bash
 OPENAI_API_KEY=your_api_key
 ```
-
-###Run Locally
+Run Locally
 ```bash
 docker-compose up
 ```
-
-###Access Application At
+Access Application
 ```bash
 http://localhost:3000
 ```
 
-*Use Case* -
+Use Cases
+
 • Resume screening and optimization
-• ATS compatibility checks
-• Career coaching tools
-• HR tech and recruitment platforms
+• ATS compatibility evaluation
+• Career coaching platforms
+• Recruitment and HR tech solutions
 
-*Future Enhancements* -
+Future Enhancements
+
 • Multi-role resume generation
-• PDF export and ATS scoring
-• CI/CD pipeline automation
-• Cloud deployment with AWS
+• PDF export and ATS scoring reports
+• CI/CD pipeline integration
+• Cloud deployment using AWS
 
-*Author* -
+Author
+
 Krish Chaudhari
