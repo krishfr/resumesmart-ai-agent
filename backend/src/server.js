@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const { envConfig } = require('./config/env');
 const { connectDatabase } = require('./config/database');
-const { initializeOllama } = require('./config/ollama');
+// const { initializeOllama } = require('./config/ollama');
 const logger = require('./utils/logger');
 const errorHandler = require('./middleware/errorHandler');
 const rateLimiter = require('./middleware/rateLimiter');
@@ -87,7 +87,7 @@ const startServer = async () => {
     logger.info('Database connected successfully');
 
     // Initialize Ollama
-    await initializeOllama();
+    // await initializeOllama();
     logger.info('Ollama initialized successfully');
 
     const PORT = envConfig.PORT || 3000;
