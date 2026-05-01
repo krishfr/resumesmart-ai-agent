@@ -1,35 +1,28 @@
 // backend/src/services/rag.service.js
+const { analyzeResume } = require("./aiService");
+const { generateEmbedding } = require("./embedding.service");
 const Resume = require('../models/Resume');
 const ResumeChunk = require('../models/ResumeChunk');
-const embeddingService = require('./embedding.service');
 const pdfService = require('./pdf.service');
 const chunker = require('../utils/chunker');
 const logger = require('../utils/logger');
-const { SYSTEM_PROMPTS, USER_PROMPTS } = require('../utils/prompts');
-const { generateCompletion } = require('../config/ollama');
 
 class RAGService {
   async processResume(resumeId, filePath) {
     try {
-      // Update status
       await Resume.updateProcessingStatus(resumeId, 'processing');
-      
-      // Extract text from PDF
+
       logger.info(`Extracting text from resume ${resumeId}`);
       const { text, pages } = await pdfService.extractText(filePath);
-      
-      // Extract structured data
-      const structuredData = await pdfService.extractStructuredData(text);
-      
-      // Chunk the text
+
       logger.info(`Chunking resume text`);
       const chunks = chunker.chunkBySection(text);
-      
-      // Generate embeddings and store chunks
+
       logger.info(`Generating embeddings for ${chunks.length} chunks`);
+
       for (const chunk of chunks) {
-        const embedding = await embeddingService.generateEmbedding(chunk.text);
-        
+        const embedding = await generateEmbedding(chunk.text);
+
         await ResumeChunk.create(
           resumeId,
           chunk.text,
@@ -38,17 +31,15 @@ class RAGService {
           { section: chunk.section, length: chunk.length }
         );
       }
-      
-      // Update resume with metadata
+
       await Resume.updateProcessingStatus(resumeId, 'completed');
-      
+
       logger.info(`Resume ${resumeId} processed successfully`);
-      
+
       return {
         success: true,
         chunksCreated: chunks.length,
-        pages,
-        structuredData
+        pages
       };
     } catch (error) {
       logger.error(`Failed to process resume ${resumeId}:`, error);
@@ -59,35 +50,32 @@ class RAGService {
 
   async queryResume(resumeId, query, topK = 5) {
     try {
-      // Generate query embedding
-      const queryEmbedding = await embeddingService.generateEmbedding(query);
-      
-      // Search for similar chunks
+      const queryEmbedding = await generateEmbedding(query);
+
       const similarChunks = await ResumeChunk.searchSimilar(
         queryEmbedding,
         resumeId,
         topK
       );
-      
+
       if (similarChunks.length === 0) {
         return {
-          answer: "I don't have enough information in your resume to answer that question.",
+          answer: "Not enough data found in resume.",
           chunks: [],
           confidence: 0
         };
       }
-      
-      // Build context from chunks
+
       const context = similarChunks
         .map((chunk, idx) => `[${idx + 1}] ${chunk.chunk_text}`)
         .join('\n\n');
-      
-      // Generate response using LLM
-      const prompt = USER_PROMPTS.RAG_QUERY(query, context);
-      const response = await generateCompletion(prompt, SYSTEM_PROMPTS.RAG_ASSISTANT);
-      
+
+      const prompt = `Answer based on resume:\n\n${context}\n\nQuestion: ${query}`;
+
+      const response = await analyzeResume(prompt);
+
       return {
-        answer: response.response,
+        answer: response,
         chunks: similarChunks.map(c => ({
           text: c.chunk_text,
           similarity: c.similarity,
@@ -106,14 +94,14 @@ class RAGService {
       if (query) {
         return await this.queryResume(resumeId, query);
       }
-      
-      // Get all chunks for full context
+
       const chunks = await ResumeChunk.findByResumeId(resumeId);
+
       const fullContext = chunks
         .sort((a, b) => a.chunk_index - b.chunk_index)
         .map(c => c.chunk_text)
         .join('\n\n');
-      
+
       return {
         context: fullContext,
         chunks: chunks.length
@@ -125,18 +113,17 @@ class RAGService {
   }
 
   async streamResponse(resumeId, query) {
-    const queryEmbedding = await embeddingService.generateEmbedding(query);
+    const queryEmbedding = await generateEmbedding(query);
     const similarChunks = await ResumeChunk.searchSimilar(queryEmbedding, resumeId, 5);
-    
+
     const context = similarChunks
       .map((chunk, idx) => `[${idx + 1}] ${chunk.chunk_text}`)
       .join('\n\n');
-    
-    const prompt = USER_PROMPTS.RAG_QUERY(query, context);
-    
+
+    const prompt = `Answer based on resume:\n\n${context}\n\nQuestion: ${query}`;
+
     return {
       prompt,
-      systemPrompt: SYSTEM_PROMPTS.RAG_ASSISTANT,
       chunks: similarChunks
     };
   }

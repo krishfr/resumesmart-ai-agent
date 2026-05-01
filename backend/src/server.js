@@ -12,7 +12,7 @@ const rateLimiter = require('./middleware/rateLimiter');
 
 // Routes
 const ragRoutes = require('./routes/rag.routes');
-const agentRoutes = require('./routes/agent.routes');
+// const agentRoutes = require('./routes/agent.routes');
 const uploadRoutes = require('./routes/upload.routes');
 
 const app = express();
@@ -24,10 +24,9 @@ const { aiLimiter, uploadLimiter, streamLimiter } = require('./middleware/rateLi
 // After existing middleware setup, before routes:
 
 // Apply specific rate limiters to routes
+// Apply rate limiters to active routes only
 app.use('/api/rag/query/stream', streamLimiter);
-app.use('/api/agent/execute/stream', streamLimiter);
 app.use('/api/rag', aiLimiter);
-app.use('/api/agent', aiLimiter);
 app.use('/api/upload', uploadLimiter);
 
 // Routes (keep existing route registrations as they are)
@@ -48,6 +47,11 @@ app.use(morgan('combined', { stream: logger.stream }));
 // Rate limiting
 app.use('/api', rateLimiter);
 
+app.use('/api/agent/execute/stream', (req, res, next) => {
+  req.url = '/api/rag/query/stream';
+  next();
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ 
@@ -59,7 +63,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/rag', ragRoutes);
-app.use('/api/agent', agentRoutes);
+// app.use('/api/agent', agentRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // 404 handler
