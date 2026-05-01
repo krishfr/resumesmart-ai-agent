@@ -19,6 +19,9 @@ const createPostgresPool = () => {
     database: envConfig.DB_NAME,
     user: envConfig.DB_USER,
     password: envConfig.DB_PASSWORD,
+    ssl: {
+      rejectUnauthorized: false
+    },
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
