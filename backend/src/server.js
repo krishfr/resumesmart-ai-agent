@@ -52,6 +52,9 @@ app.use('/api/agent/execute/stream', (req, res, next) => {
   next();
 });
 
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../public")));
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ 
@@ -65,6 +68,10 @@ app.get('/health', (req, res) => {
 app.use('/api/rag', ragRoutes);
 // app.use('/api/agent', agentRoutes);
 app.use('/api/upload', uploadRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 // 404 handler
 app.use((req, res) => {
