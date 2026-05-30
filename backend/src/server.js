@@ -53,30 +53,28 @@ app.use('/api/agent/execute/stream', (req, res, next) => {
 });
 
 const path = require("path");
+
+// Serve frontend FIRST
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    environment: envConfig.NODE_ENV
-  });
-});
-
-// API Routes
+// API routes
 app.use('/api/rag', ragRoutes);
-// app.use('/api/agent', agentRoutes);
 app.use('/api/upload', uploadRoutes);
 
+// Health
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy' });
+});
+
+// Catch-all → frontend
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
+// // 404 handler
+// app.use((req, res) => {
+//   res.status(404).json({ error: 'Route not found' });
+// });
 
 // Global error handler
 app.use(errorHandler);
