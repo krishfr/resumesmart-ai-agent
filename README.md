@@ -1,84 +1,112 @@
-ResumeSmart AI Agent
+# ResumeSmart AI Agent
 
-AI-powered resume analysis system for evaluating, optimizing, and aligning resumes with job descriptions.
+AI-powered resume analysis system that evaluates resumes against job descriptions to identify skill gaps, role alignment, and improvement opportunities.
 
-Overview
+## Overview
 
-ResumeSmart AI Agent analyzes resumes using AI and compares them against job descriptions to identify skill gaps, role alignment, and improvement areas. Built for candidates targeting ATS-friendly, role-specific resumes.
+ResumeSmart AI Agent helps candidates understand how well their resume matches a target role. The system analyzes resume content, compares it with a job description, and generates structured feedback on missing skills, relevance, and areas for improvement.
 
-Tech Stack
+The project was built to explore practical LLM integration within a full-stack application while solving a common problem faced by job seekers: tailoring resumes for specific roles.
 
-Frontend
-React
+## Tech Stack
 
-Backend
-Node.js, Express.js
+### Frontend
 
-Database
-PostgreSQL
+* React.js
 
-AI
-LLM-based analysis using Ollama
+### Backend
 
-DevOps
-Docker for containerized deployment
+* Node.js
+* Express.js
 
-Core Features
+### Database
 
-• Resume parsing and structured data extraction
-• Job description analysis and keyword mapping
-• AI-driven skill gap and relevance scoring
-• Actionable resume improvement suggestions
-• Modular architecture for extending AI agents
+* PostgreSQL
 
-System Flow
+### AI
 
-Resume Upload → AI Parsing → JD Comparison → Scoring Engine → Feedback Report
+* LLM-based analysis using Ollama
 
-Setup
+### DevOps
 
-Clone repository
+* Docker
+
+## Core Features
+
+* Resume parsing and structured data extraction
+* Job description analysis and keyword mapping
+* AI-driven skill gap analysis
+* Resume-to-role relevance scoring
+* Actionable recommendations for resume improvement
+* Modular architecture for extending AI-powered workflows
+
+## System Flow
+
+Resume Upload → Resume Parsing → Job Description Analysis → AI Evaluation → Scoring Engine → Feedback Report
+
+## Setup
+
+### Clone Repository
+
 ```bash
 git clone https://github.com/krishfr/resumesmart-ai-agent.git
 cd resumesmart-ai-agent
 ```
-Install frontend dependencies
+
+### Install Frontend Dependencies
+
 ```bash
 cd frontend
 npm install
 ```
-Install backend dependencies
+
+### Install Backend Dependencies
+
 ```bash
 cd ../backend
 npm install
 ```
-Environment variables
+
+### Environment Variables
+
 ```bash
 OPENAI_API_KEY=your_api_key
 ```
-Run Locally
+
+## Run Locally
+
 ```bash
 docker-compose up
 ```
-Access Application
+
+## Access Application
+
 ```bash
 http://localhost:3000
 ```
 
-Use Cases
+## Use Cases
 
-• Resume screening and optimization
-• ATS compatibility evaluation
-• Career coaching platforms
-• Recruitment and HR tech solutions
+* Resume screening and optimization
+* ATS compatibility evaluation
+* Career guidance platforms
+* Recruitment and HR technology solutions
 
-Future Enhancements
+## Key Learnings
 
-• Multi-role resume generation
-• PDF export and ATS scoring reports
-• CI/CD pipeline integration
-• Cloud deployment using AWS
+* Integrating LLMs into real-world web applications
+* Designing prompt workflows for consistent AI responses
+* Managing data flow between frontend, backend, database, and AI services
+* Containerized development and deployment using Docker
+* Building scalable full-stack application architecture
 
-Author
+## Future Enhancements
 
-Krish Chaudhari
+* Multi-role resume generation
+* PDF export and ATS scoring reports
+* CI/CD pipeline integration
+* Cloud deployment on AWS
+
+## Author
+
+**Krish Chaudhari**
